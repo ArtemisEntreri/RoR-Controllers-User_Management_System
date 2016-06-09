@@ -1,0 +1,41 @@
+<% if flash[:message] %>
+<h2><%= flash[:message] %></h2>
+<%end%>
+<% if flash[:errors]
+	flash[:errors].each do |error| %>
+	<h2><%= error %></h2>
+	<%end%>
+<%end%>
+<h1>Listing Users</h1>
+<% if @users %>
+<table>
+	<thead>	
+		<tr>
+			<th>First Name</th>
+			<th>Last Name</th>
+			<th>Email</th>
+			<th colspan="12"></th>
+		</tr>
+	</thead>
+	<tbody>	
+<%  @users.each do |user| %>  
+		<tr>
+			<td><%= user.first_name %></td>
+			<td><%= user.last_name %></td>
+			<td><%= user.email_address %></td>
+			<td>
+				<a href="/users/<%=user.id%>">Show</a> |
+				<a href="/users/<%=user.id%>/edit">Edit</a>
+				<form action="/users/<%= user.id %>" method="post">
+          			<input type='hidden' name="authenticity_token" value="<%= form_authenticity_token %>">
+          			<input type='hidden' name="_method" value="delete">
+          			<input type="submit" value="Destroy">
+        		</form>
+        	</td>
+		</tr>
+<%end%>
+	</tbody>
+</table>
+<%end%>
+
+<a href="/users/new">New User</a>
